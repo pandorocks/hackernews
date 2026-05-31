@@ -16,4 +16,7 @@ Gem::Specification.new do |spec|
   spec.metadata["rubygems_mfa_required"] = "true"
 
   spec.add_dependency "charming"
+  spec.add_dependency "httparty"
+
+  spec.add_development_dependency "rspec"
 end

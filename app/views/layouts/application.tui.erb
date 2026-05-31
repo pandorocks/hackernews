@@ -10,7 +10,7 @@ panel_height = narrow ? nil : [screen.height - 4, 5].max
 
 app_title = text "Hackernews", style: theme.header_accent.align(:center).width(sidebar_width)
 nav_items = controller.application.routes.all.each_with_index.map do |route, index|
-  current_route = route.controller_class == controller.class && route.action == :show
+  current_route = controller.current_route?(route)
   cursor = sidebar_focused && index == sidebar_index ? ">" : " "
   active = current_route ? "●" : " "
   item_style = if sidebar_focused && index == sidebar_index

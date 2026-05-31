@@ -9,7 +9,8 @@ RSpec.describe "home/show template" do
       view = Charming::TemplateView.new(
         template: template,
         namespace: Hackernews,
-        home: double(title: "Hackernews"),
+        home: Hackernews::HomeModel.new,
+        screen: Charming::Screen.new(width: 80, height: 24),
         theme: Hackernews::Application.new.theme
       )
 
