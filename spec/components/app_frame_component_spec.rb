@@ -20,7 +20,7 @@ RSpec.describe Hackernews::AppFrameComponent do
         screen: Charming::Screen.new(width: 48, height: 24)
       )
 
-      plain = Charming::UI::Width.strip_ansi(component.render)
+      plain = Charming::Presentation::UI::Width.strip_ansi(component.render)
 
       expect(plain).to include("abcdefghijklmnopqrst")
       expect(plain).to include("uvwxyz")
@@ -44,7 +44,7 @@ RSpec.describe Hackernews::AppFrameComponent do
         screen: Charming::Screen.new(width: 80, height: 24)
       )
 
-      plain = Charming::UI::Width.strip_ansi(component.render)
+      plain = Charming::Presentation::UI::Width.strip_ansi(component.render)
 
       expect(plain).not_to include("Loading Top Stories")
       expect(plain).to include("Cached story")

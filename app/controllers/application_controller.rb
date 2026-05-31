@@ -39,5 +39,36 @@ module Hackernews
     def current_route?(route)
       route.controller_class == self.class && route.action == :show
     end
+
+    def sidebar_routes
+      application.routes.all.uniq { |route| route.path }
+    end
+
+    def sidebar_index
+      explicit_index = session[:sidebar_index]
+      return explicit_index.clamp(0, [sidebar_routes.length - 1, 0].max) if explicit_index
+
+      sidebar_routes.index { |route| current_route?(route) } || 0
+    end
+
+    private
+
+    def sidebar_move(delta)
+      count = sidebar_routes.length
+      return render_default_action if count.zero?
+
+      session[:sidebar_index] = (sidebar_index + delta).clamp(0, count - 1)
+      render_default_action
+    end
+
+    def sidebar_select
+      route = sidebar_routes[sidebar_index]
+      if focus_ring_slot?(:content)
+        focus.focus(:content)
+      else
+        session[:focus] = :content
+      end
+      route ? navigate_to(route.path) : render_default_action
+    end
   end
 end

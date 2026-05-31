@@ -5,8 +5,8 @@ require "hackernews"
 RSpec.describe "home/show template" do
   describe "#render" do
     it "renders the model title" do
-      template = Charming::Templates.resolve("home/show", root: Hackernews::Application.root)
-      view = Charming::TemplateView.new(
+      template = Charming::Presentation::Templates.resolve("home/show", root: Hackernews::Application.root)
+      view = Charming::Presentation::TemplateView.new(
         template: template,
         namespace: Hackernews,
         home: Hackernews::HomeModel.new,

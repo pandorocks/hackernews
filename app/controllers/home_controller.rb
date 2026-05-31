@@ -194,15 +194,10 @@ module Hackernews
       route.path == FEEDS.fetch(home.feed).fetch(:path)
     end
 
-    def sidebar_index
-      session[:sidebar_index] || application.routes.all.index { |route| current_route?(route) } || 0
-    end
-
-
     private
 
     def home
-      model(:home, HomeModel)
+      state(:home, HomeModel)
     end
 
     def switch_feed(feed)

@@ -45,15 +45,36 @@ RSpec.describe Hackernews::HomeController do
 
       expect(controller.sidebar_index).to eq(2)
     end
+
+    it "indexes unique sidebar routes when the route list contains duplicates" do
+      routes = application.routes.all
+      allow(application.routes).to receive(:all).and_return([routes.first, *routes])
+
+      controller.dispatch(:new)
+
+      expect(controller.sidebar_index).to eq(1)
+    end
+  end
+
+  describe "#show" do
+    it "renders duplicate routes only once in the sidebar" do
+      routes = application.routes.all
+      allow(application.routes).to receive(:all).and_return([routes.first, *routes])
+
+      response = controller.dispatch(:show)
+      plain = Charming::Presentation::UI::Width.strip_ansi(response.body)
+
+      expect(plain.scan(/● Top/).length).to eq(1)
+    end
   end
 
   describe "#load_feed_done" do
     it "clears loading state when the current page finishes loading" do
-      home = application.session[:models] = {home: Hackernews::HomeModel.new}
+      home = application.session[:states] = {home: Hackernews::HomeModel.new}
       model = home.fetch(:home)
       model.loading = true
       model.loading_key = "stale"
-      event = Charming::TaskEvent.new(
+      event = Charming::Events::TaskEvent.new(
         name: :load_feed,
         value: {feed: "top", page: 0, ids: [1], stories: []}
       )
