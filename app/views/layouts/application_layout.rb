@@ -1,0 +1,130 @@
+# frozen_string_literal: true
+
+module Hackernews
+  module Layouts
+    class ApplicationLayout < Charming::Presentation::View
+      def render
+        modal = command_palette_modal
+
+        screen_layout do
+          split(narrow? ? :vertical : :horizontal, gap: 1) do
+            pane(:sidebar, **sidebar_options, border: :rounded, padding: [1, 2], style: sidebar_style) do
+              column(app_title, navigation, shortcuts, gap: 1)
+            end
+
+            pane(:content, grow: 1, border: :rounded, padding: [1, 2], style: content_style) do
+              yield_content
+            end
+          end
+
+          overlay modal if modal
+        end
+      end
+
+      private
+
+      def palette_component
+        assigns.fetch(:palette, nil)
+      end
+
+      def narrow?
+        screen.width < 72 && screen.height >= 20
+      end
+
+      def sidebar_options
+        narrow? ? {height: sidebar_outer_height} : {width: sidebar_outer_width}
+      end
+
+      def sidebar_outer_width
+        sidebar_inner_width + 6
+      end
+
+      def sidebar_outer_height
+        sidebar_routes.length + 10
+      end
+
+      def sidebar_inner_width
+        narrow? ? [screen.width - 6, 20].max : 22
+      end
+
+      def app_title
+        text "Hackernews", style: theme.header_accent.align(:center).width(sidebar_inner_width)
+      end
+
+      def navigation
+        column(*nav_items)
+      end
+
+      def nav_items
+        sidebar_routes.each_with_index.map do |route, index|
+          text nav_item_label(route, index), style: nav_item_style(route, index)
+        end
+      end
+
+      def nav_item_label(route, index)
+        cursor = (sidebar_focused? && index == sidebar_index) ? ">" : " "
+        active = current_route?(route) ? "●" : " "
+        "#{cursor} #{active} #{route.title}"
+      end
+
+      def nav_item_style(route, index)
+        if sidebar_focused? && index == sidebar_index
+          theme.selected
+        elsif current_route?(route)
+          theme.title
+        else
+          theme.muted
+        end
+      end
+
+      def shortcuts
+        text "tab focus\np commands\nq quit", style: theme.muted
+      end
+
+      def sidebar_style
+        panel_style(sidebar_focused?)
+      end
+
+      def content_style
+        panel_style(content_focused?)
+      end
+
+      def panel_style(focused)
+        style = focused ? theme.title : theme.border
+        palette_component ? style.faint : style
+      end
+
+      def command_palette_modal
+        return unless palette_component
+
+        render_component Charming::Presentation::Components::Modal.new(
+          content: palette_component,
+          title: "Command palette",
+          help: "Type to filter. Enter selects. Escape closes.",
+          width: 52,
+          theme: theme
+        )
+      end
+
+      def sidebar_focused?
+        controller.sidebar_focused?
+      end
+
+      def content_focused?
+        controller.content_focused?
+      end
+
+      def sidebar_index
+        controller.sidebar_index
+      end
+
+      def sidebar_routes
+        controller.sidebar_routes
+      end
+
+      def current_route?(route)
+        controller.current_route?(route)
+      end
+    end
+  end
+end

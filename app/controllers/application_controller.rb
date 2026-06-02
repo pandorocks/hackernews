@@ -2,7 +2,7 @@
 
 module Hackernews
   class ApplicationController < Charming::Controller
-    layout "layouts/application"
+    layout Layouts::ApplicationLayout
     focus_ring :content, :sidebar
 
     key "p", :open_command_palette, scope: :global
