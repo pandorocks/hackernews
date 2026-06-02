@@ -28,7 +28,7 @@ module Hackernews
       end
 
       def narrow?
-        screen.width < 72 && screen.height >= 20
+        screen.narrow?(below: 72, min_height: 20)
       end
 
       def sidebar_options
@@ -97,11 +97,8 @@ module Hackernews
       def command_palette_modal
         return unless palette_component
 
-        render_component Charming::Presentation::Components::Modal.new(
+        render_component Charming::Presentation::Components::CommandPaletteModal.new(
           content: palette_component,
-          title: "Command palette",
-          help: "Type to filter. Enter selects. Escape closes.",
-          width: 52,
           theme: theme
         )
       end

@@ -27,11 +27,13 @@ module Hackernews
 
     def activity_line
       render_component(Charming::Presentation::Components::ActivityIndicator.new(
-        width: activity_width,
-        label: activity_label,
+        width: 24,
+        label: home.loading_label.to_s,
         index: home.activity_index,
         seed: "hackernews-loading",
-        label_style: theme.muted
+        label_style: theme.muted,
+        max_width: content_width,
+        fallback_label: "Working"
       ))
     end
 
@@ -73,7 +75,7 @@ module Hackernews
     end
 
     def content_width
-      if screen.width < 72 && screen.height >= 20
+      if screen.narrow?(below: 72, min_height: 20)
         [screen.width - 12, 20].max
       else
         [screen.width - 42, 20].max
@@ -82,18 +84,6 @@ module Hackernews
 
     def content_height
       [screen.height - 12, 5].max
-    end
-
-    def activity_label
-      label = home.loading_label.to_s
-      return label if Charming::Presentation::UI::Width.measure(label) + 8 < content_width
-
-      "Working"
-    end
-
-    def activity_width
-      label_width = Charming::Presentation::UI::Width.measure(activity_label)
-      [[content_width - label_width - 4, 4].max, 24].min
     end
   end
 end
