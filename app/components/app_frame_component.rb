@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Hackernews
-  class AppFrameComponent < Charming::Presentation::Component
+  class AppFrameComponent < Charming::Component
     def render
       column(*lines, gap: 1)
     end
@@ -26,7 +26,7 @@ module Hackernews
     end
 
     def activity_line
-      render_component(Charming::Presentation::Components::ActivityIndicator.new(
+      render_component(Charming::Components::ActivityIndicator.new(
         width: 24,
         label: home.loading_label.to_s,
         index: home.activity_index,
@@ -48,7 +48,7 @@ module Hackernews
     def article_view
       article = home.article || {}
       header = text(article.fetch(:url, ""), style: theme.muted)
-      body = render_component(Charming::Presentation::Components::Viewport.new(
+      body = render_component(Charming::Components::Viewport.new(
         content: article.fetch(:markdown, ""),
         width: content_width,
         height: [content_height - 2, 1].max,

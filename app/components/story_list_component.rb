@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Hackernews
-  class StoryListComponent < Charming::Presentation::Component
+  class StoryListComponent < Charming::Component
     def render
       return empty_state if home.current_stories.empty?
 

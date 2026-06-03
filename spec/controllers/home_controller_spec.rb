@@ -62,7 +62,7 @@ RSpec.describe Hackernews::HomeController do
       allow(application.routes).to receive(:all).and_return([routes.first, *routes])
 
       response = controller.dispatch(:show)
-      plain = Charming::Presentation::UI::Width.strip_ansi(response.body)
+      plain = Charming::UI::Width.strip_ansi(response.body)
 
       expect(plain.scan(/● Top/).length).to eq(1)
     end

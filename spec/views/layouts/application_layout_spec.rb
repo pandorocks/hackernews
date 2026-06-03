@@ -19,7 +19,7 @@ RSpec.describe Hackernews::Layouts::ApplicationLayout do
   end
 
   it "renders the sidebar and yielded content" do
-    plain = Charming::Presentation::UI::Width.strip_ansi(render_layout)
+    plain = Charming::UI::Width.strip_ansi(render_layout)
 
     expect(plain).to include("Hackernews")
     expect(plain).to include("Top")
@@ -27,7 +27,7 @@ RSpec.describe Hackernews::Layouts::ApplicationLayout do
   end
 
   it "renders the command palette as an overlay" do
-    plain = Charming::Presentation::UI::Width.strip_ansi(render_layout(palette: "Top\nNew"))
+    plain = Charming::UI::Width.strip_ansi(render_layout(palette: "Top\nNew"))
 
     expect(plain).to include("Command palette")
     expect(plain).to include("Type to filter. Enter selects. Escape closes.")
@@ -57,7 +57,7 @@ RSpec.describe Hackernews::Layouts::ApplicationLayout do
       controller: controller,
       theme: theme
     ).render
-    plain_lines = Charming::Presentation::UI::Width.strip_ansi(frame).lines(chomp: true)
+    plain_lines = Charming::UI::Width.strip_ansi(frame).lines(chomp: true)
 
     separator_row = plain_lines.find { |line| line.include?("│ │") && line !~ /Story|points|Hackernews|Top|New|Best|Ask|Show|Jobs|tab|commands|quit/ }
     expect(separator_row).not_to be_nil

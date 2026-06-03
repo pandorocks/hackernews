@@ -2,7 +2,7 @@
 
 module Hackernews
   module Layouts
-    class ApplicationLayout < Charming::Presentation::View
+    class ApplicationLayout < Charming::View
       def render
         modal = command_palette_modal
 
@@ -97,7 +97,7 @@ module Hackernews
       def command_palette_modal
         return unless palette_component
 
-        render_component Charming::Presentation::Components::CommandPaletteModal.new(
+        render_component Charming::Components::CommandPaletteModal.new(
           content: palette_component,
           theme: theme
         )
