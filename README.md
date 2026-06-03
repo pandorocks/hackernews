@@ -56,9 +56,9 @@ bundle exec hackernews
 
 ## Architecture
 
-- **Models** — `HomeModel` manages local state: stories by page, feed index, article cache, loading indicators
+- **State** — `HomeState` manages local state: stories by page, feed index, article cache, loading indicators
 - **Controllers** — `HomeController` coordinates data fetching from the Firebase API and article extraction
-- **Views** — ERB templates with `.tui.erb` extension
+- **Views** — Ruby view classes under `app/views`
 - **Components** — reusable widgets like `StoryListComponent` that handle their own rendering
 
 Key libraries: Charming (UI framework), HTTParty (HTTP client), Zeitwerk (auto-loading).

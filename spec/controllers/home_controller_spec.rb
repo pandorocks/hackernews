@@ -70,7 +70,7 @@ RSpec.describe Hackernews::HomeController do
 
   describe "#load_feed_done" do
     it "clears loading state when the current page finishes loading" do
-      home = application.session[:states] = {home: Hackernews::HomeModel.new}
+      home = application.session[:states] = {home: Hackernews::HomeState.new}
       model = home.fetch(:home)
       model.loading = true
       model.loading_key = "stale"

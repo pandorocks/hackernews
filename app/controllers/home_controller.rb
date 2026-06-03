@@ -197,7 +197,7 @@ module Hackernews
     private
 
     def home
-      state(:home, HomeModel)
+      state(:home, HomeState)
     end
 
     def switch_feed(feed)

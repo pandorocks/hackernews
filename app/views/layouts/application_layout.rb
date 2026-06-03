@@ -6,7 +6,7 @@ module Hackernews
       def render
         modal = command_palette_modal
 
-        screen_layout do
+        screen_layout(background: theme.background) do
           split(narrow? ? :vertical : :horizontal, gap: 1) do
             pane(:sidebar, **sidebar_options, border: :rounded, padding: [1, 2], style: sidebar_style) do
               column(app_title, navigation, shortcuts, gap: 1)

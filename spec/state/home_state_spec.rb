@@ -2,7 +2,7 @@
 
 require "hackernews"
 
-RSpec.describe Hackernews::HomeModel do
+RSpec.describe Hackernews::HomeState do
   describe "#title" do
     it "has the correct default string value" do
       instance = described_class.new

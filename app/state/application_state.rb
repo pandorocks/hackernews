@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 module Hackernews
-  class ApplicationModel < Charming::ApplicationState
+  class ApplicationState < Charming::ApplicationState
   end
 end

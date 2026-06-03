@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Hackernews
-  class HomeModel < ApplicationModel
+  class HomeState < ApplicationState
     attribute :title, :string, default: "Hackernews"
     attribute :feed, :string, default: "top"
     attribute :page, :integer, default: 0

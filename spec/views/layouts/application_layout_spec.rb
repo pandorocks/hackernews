@@ -34,7 +34,7 @@ RSpec.describe Hackernews::Layouts::ApplicationLayout do
   end
 
   it "keeps separator rows blank while the selected story changes" do
-    home = Hackernews::HomeModel.new
+    home = Hackernews::HomeState.new
     home.story_ids_by_feed[home.feed] = (1..500).to_a
     home.stories_by_page[home.page_key] = Array.new(30) do |index|
       Hackernews::Story.new(
