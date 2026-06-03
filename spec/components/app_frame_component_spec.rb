@@ -26,6 +26,27 @@ RSpec.describe Hackernews::AppFrameComponent do
       expect(plain).to include("uvwxyz")
     end
 
+    it "renders article markdown inside the viewport" do
+      home = Hackernews::HomeModel.new(reading_story_id: 1)
+      home.articles_by_story_id[1] = {
+        url: "https://example.com/posts/article",
+        markdown: "# Article\n\nRead **bold** [docs](/docs)."
+      }
+      component = described_class.new(
+        home: home,
+        screen: Charming::Screen.new(width: 80, height: 24)
+      )
+
+      plain = Charming::UI::Width.strip_ansi(component.render)
+
+      expect(plain).to include("Article")
+      expect(plain).to include("Read bold docs")
+      expect(plain).to include("<https://example.com/docs>")
+      expect(plain).not_to include("# Article")
+      expect(plain).not_to include("**bold**")
+      expect(plain).not_to include("[docs](/docs)")
+    end
+
     it "does not render feed loading once the current page is cached" do
       home = Hackernews::HomeModel.new(loading: true, loading_label: "Loading Top Stories")
       home.stories_by_page[home.page_key] = [Hackernews::Story.new(

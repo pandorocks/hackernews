@@ -48,8 +48,14 @@ module Hackernews
     def article_view
       article = home.article || {}
       header = text(article.fetch(:url, ""), style: theme.muted)
-      body = render_component(Charming::Components::Viewport.new(
+      markdown = Charming::Components::Markdown.new(
         content: article.fetch(:markdown, ""),
+        width: content_width,
+        theme: theme,
+        base_url: article.fetch(:url, nil)
+      )
+      body = render_component(Charming::Components::Viewport.new(
+        content: markdown,
         width: content_width,
         height: [content_height - 2, 1].max,
         offset: home.article_scroll,
